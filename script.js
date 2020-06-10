@@ -16,7 +16,6 @@ function initAutocomplete() {
     // Create the search box and link it to the UI element.
     var input = document.getElementById('pac-input');
     var searchBox = new google.maps.places.SearchBox(input);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
   
     // Bias the SearchBox results towards current map's viewport.
     map.addListener('bounds_changed', function() {
@@ -97,3 +96,55 @@ function initAutocomplete() {
       } // End if
     });
   });
+
+    
+  function drawStuff() {
+    var data = new google.visualization.arrayToDataTable([
+      ['Move', 'Percentage'],
+      ["12 am", 100],
+      ["1 am", 31],
+      ["2 am", 12],
+      ["3 am", 10],
+      ["4 am", 3],
+      ["3 am", 10],
+      ["4 am", 44],
+      ["5 am", 31],
+      ["6 am", 12],
+      ["7 am", 10],
+      ["8 am", 3],
+      ["9 am", 10],
+      ["10 am", 44],
+      ["11 am", 31],
+      ["12 pm", 12],
+      ["1 pm", 10],
+      ["2 pm", 3],
+      ["3 pm", 10],
+      ["4 pm", 44],
+      ["5 pm", 31],
+      ["6 pm", 12],
+      ["7 pm", 10],
+      ["8 pm", 3],
+      ["9 pm", 10],
+      ["10 pm", 3],
+      ["11 pm", 10]
+    ]);
+
+    var options = {
+      width: 600,
+      legend: { position: 'none' },
+      chart: {
+        title: 'Chess opening moves',
+        subtitle: 'popularity by percentage' },
+      axes: {
+        x: {
+          0: { side: 'top', label: 'White to move'} // Top x-axis.
+        }
+      },
+      bar: { groupWidth: "50%" }
+    };
+
+    var chart = new google.charts.Bar(document.getElementById('top_x_div'));
+    // Convert the Classic options to Material options.
+    chart.draw(data, google.charts.Bar.convertOptions(options));
+  };
+ 
