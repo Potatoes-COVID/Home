@@ -47,7 +47,7 @@ header .overlay {
     left: 0;
     height: 100%;
     width: 100%;
-    background-color: black;
+    
     opacity: 0.3;
     z-index: 1;
   }
@@ -55,7 +55,8 @@ header .overlay {
 /* Always set the map height explicitly to define the size of the div
  * element that contains the map. */
  #map {
-  height: 80%;
+  height: 50%;
+  width: 50%;
 }
 /* Optional: Makes the sample page fill the window. */
 html, body {
@@ -132,5 +133,10 @@ html, body {
 }
 #target {
   width: 345px;
+}
+
+#top_x_div {
+  width: 300px;
+  height: 300px;
 }
     
