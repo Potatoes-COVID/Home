@@ -2,6 +2,7 @@
 <html lang="en">
 
   <head>
+  
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -13,6 +14,19 @@
     <link rel="stylesheet" href="app.css">
     <title>Corona Virus</title>
     <script src="script.js"></script>
+
+    <!--google graph-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+    google.charts.load('current', {'packages':['bar']});
+    google.charts.setOnLoadCallback(drawStuff);
+    </script>
+
+    
+
+    
+    
+  
   </head>
 
   <body>
@@ -35,11 +49,7 @@
           </ul>
         </div>
       </nav>
-      <!--
-
       
-      
--->
       <!-- Banner -->
       <header>
         <div class="overlay"></div>
@@ -49,8 +59,8 @@
         <div class="container h-100">
           <div class="d-flex h-100 text-center align-items-center">
             <div class="w-100 text-white">
-              <h1 class="display-3">Covid Shopper</h1>
-              <p class="lead mb-0">Stand Together by Standing Apart</p>
+              <h1 class="display-3">Welcome to Covid Shopper</h1>
+              <p class="lead mb-0">Your guide to staying safe and healthy by providing you with crowd free shopping times</p>
               <hr>
               <button  type="button" class="btn btn-outline-light"><a href="#map">Get Started</a></button>
             </div>
@@ -58,17 +68,20 @@
         </div>
       </header>
 
-
+      <!-- Search form -->
       <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-      <div id="map"></div>
-      <!-- Replace the value of the key parameter with your own API key. -->
+      <div id="map">
+      </div>
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgnNV7U7z9uM_DX1R5c3R07DrB7zfumnw&libraries=places&callback=initAutocomplete" async defer></script>
 
+
       
+      <div id="top_x_div">
+      </div>
       
-         
+      <h1>THIS IS FILLER TEXT</h1>
+
       
-    
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
