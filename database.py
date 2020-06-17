@@ -1,12 +1,15 @@
 import pandas as pd
 
 class Database:
+    # constructor
     def _init_(self):
         self.places = pd.read_csv('data/places.csv', index_col=0)
         self.last_index = 0
         self.results = []
         return
 
+    # search the database for the name of the store
+    # return any found information
     def search(s):
         results = []
         for (index, row) in places.iterrows():
@@ -22,12 +25,15 @@ class Database:
                 update_results(results)
         return self.results
 
+    # add a new place to the database
     def add(place, has_pt, has_live):
         self.places.at[self.last_index+1, 'place_name'] = place
         self.places.at[self.last_index+1, 'has_pt'] = has_pt
         self.places.at[self.last_index+1, 'has_live'] = has_live
         return
-        
+
+    # change the databases values of 0 - no prec & 1 - yes prec
+    # to true / false values
     def update_results(r):
         self.results[0] = r[0]
         if r[1] == 1:
@@ -55,5 +61,3 @@ class Database:
         else:
             self.results[5] = false
         return
-
-    def add_place(place):
