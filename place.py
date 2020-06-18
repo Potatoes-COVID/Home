@@ -4,15 +4,15 @@ class Place:
         api_url = "https://www.google.com/maps/search/?api="
         apikey = 'AIzaSyBMZ6xYlzyjMEZTWiXWF7F6KlvOI-rvWm0'
 
-        self.name = place.name
+        self.name = place["name"]
         self.os = os                                        # whether or not this is an original search place
-        self.id = place.place_id
-        self.loc = place.geometry.location.toUrlValue()     # worried this is for javascript lol; LOOK INTO
+        self.id = place["place_id"]
+        self.loc = get_location(place)
         self.has_pt = false                                 # whether or not it has popular times data; to be determined from DB
         self.has_live = false                               # whether or not it has live times data; to be determined from DB
         self.live = 0                                       # live value
         self.covidprec = [false, false, false]              # [MASKS: BOOL, LIMITED_ENTRY: BOOL, EARLY_CLOSE: BOOL]
-        self.poptimes = []                                  
+        self.poptimes = []
         self.rank = 0                                       # to be added to as place parameters are determined
         self.db = Databse()
         self.url = ('s'
@@ -29,6 +29,12 @@ class Place:
                 get_pop_times()
         return
 
+    def get_location(place):
+        lat = usr[0]["geometry"]["location"]["lat"]
+        lng = usr[0]["geometry"]["location"]["lng"]
+        loc = lat + ", " + lng
+        return loc
+        
     # calls the Databse to get the covid precautions for stores of that name,
     # as well as if they have popular times data available. will return
     # true or false depending on if the place was found
