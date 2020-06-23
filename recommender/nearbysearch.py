@@ -5,7 +5,7 @@ import place
 from config.api import apikey
 
 class NearbySearch:
-    def _init_(self, location, type):
+    def _init_(self, location, type, os_name):
         self.api_url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
         self.apikey = apikey
         self.loc = location
@@ -13,6 +13,7 @@ class NearbySearch:
         self.radius = 5000                                  # meters : ~3.1 miles
         self.recs = []
         self.places = []
+        self.os_name = os_name
         nsr = search_nearby()
         create_places(nsr)
         print("Type: %s", self.type)
@@ -54,11 +55,12 @@ class NearbySearch:
             if num_recs == 5: break
             else if num_places == 5 && num_recs > 1: break
             else:
-                place = Place(p)
-                if place.has_live:
-                    self.recs += place
-                else:
-                    self.places += place
+                if p['name'] != self.os_name:
+                    place = Place(p)
+                    if place.has_live:
+                        self.recs += place
+                    else:
+                        self.places += place
         sort_recs()
 
     # if num_recs < 5 [we have < 5 places with live times], add places from

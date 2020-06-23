@@ -38,7 +38,7 @@ class Place:
     # CODE COULD CHANGE
     def query_db(self):
         db = Databse()
-        results = db.search(self.name, self.plus_code)
+        results = db.search(self.plus_code)
         found = true, subtype, covid [5], pt, lt
         if results[0]:
             self.subtype = results[1]

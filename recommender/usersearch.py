@@ -1,10 +1,4 @@
-
-import json
-import urllib.request as url_req
-import time
 import place
-import pandas as pd
-from config.api import APIKey
 
 class UserSearch:
     def _init_(self, results):

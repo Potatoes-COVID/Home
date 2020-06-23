@@ -1,10 +1,5 @@
-import json
-import urllib.request as url_req
-import time
-import pandas as pd
 import usersearch
 import nearbysearch
-from config.api import apikey
 
 # create recs --> recommender = Recommender(search)
 # target_search_recommendations = recommender.user_search_recs
@@ -22,7 +17,7 @@ class Recommender:
 
         self.search_type = self.usr[0]['types'][0]
         self.loc = get_location()
-        self.nearby_search_recs = NearbySearch(self.loc, self.search_type)
+        self.nearby_search_recs = NearbySearch(self.loc, self.search_type, self.usr[0]['name'])
         return
 
     def get_location(self):
