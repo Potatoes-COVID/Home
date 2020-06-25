@@ -14,12 +14,13 @@ class Database(object):
             if str(codes[index]) == place.plus_code:
                 print('Woo hoo ! Found !')
                 place.in_db = True
-                place.subtype = self.data.iloc[index].loc['subtype']
-                place.covidprec[0] = self.data.iloc[index].loc['masks']
-                place.covidprec[1] = self.data.iloc[index].loc['limited_entry']
-                place.covidprec[2] = self.data.iloc[index].loc['early_close']
-                place.covidprec[3] = self.data.iloc[index].loc['has_early']
-                place.covidprec[4] = self.data.iloc[index].loc['early_hours']
-                place.covidprec[5] = self.data.iloc[index].loc['delivery']
-                place.has_pt = place.covidprec[0] = self.data.iloc[index].loc['has_pt']
-                place.has_live = place.covidprec[0] = self.data.iloc[index].loc['has_live']
+                place.subtype = self.data.at[index, 'subtype']
+                place.covidprec[0] = self.data.at[index, 'masks']
+                place.covidprec[1] = self.data.at[index, 'limited_entry']
+                place.covidprec[2] = self.data.at[index, 'early_close']
+                place.covidprec[3] = self.data.at[index, 'has_early']
+                place.covidprec[4] = self.data.at[index, 'early_hours']
+                place.covidprec[5] = self.data.at[index, 'delivery']
+                place.has_pt = self.data.at[index, 'has_pt']
+                place.has_live = self.data.at[index, 'has_live']
+            #    self.data.at[index, 'place_id'] = place.place_id
