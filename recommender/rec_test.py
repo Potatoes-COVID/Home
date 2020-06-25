@@ -11,17 +11,17 @@ import nearbysearch as ns
 # of the initial search, and the users approx location by
 # using the first place in the results array and send it to
 # NearbySearch for handling
-def recommender():
-    with open("data/data_file_read.json") as read_file:
-        srch = json.load(read_file)
-    usr = srch['results']
-    user_search_recs = us.UserSearch(usr)
+def recommender(search):
+    #srch = json.loads(search)
+    #usr = srch['results']
+    #user_search_recs = us.UserSearch(usr)
 
-    search_type = usr[0]['types'][0]
-    loc = get_location()
-    nearby_search_recs = ns.NearbySearch(loc, search_type, usr[0]['name'])
+    search_type = 'supermarket' #usr[0]['types'][0]
+    # loc = get_location()
+    loc = '34.2410079,-118.5401147'
+    nearby_search_recs = ns.NearbySearch(loc, search_type, 'target')#usr[0]['name'])
 
-    recs = get_json(user_search_recs.recs, nearby_search_recs.recs)
+    recs = get_json(nearby_search_recs.recs)
     with open("data/data_file_rec.json", "w") as write_file:
         json.dump(recs, write_file)
 
@@ -30,9 +30,14 @@ def get_location():
     lng = self.usr[0]['geometry']['location']['lng']
     return str(lat) + ',' + str(lng)
 
-def get_json(user_search_recs, nearby_search_recs):
+def get_json(nearby_search_recs):
     recs = {
-        "usersearch" : user_search_recs,
+        # "usersearch" : user_search_recs,
         "nearbysearch" : nearby_search_recs
     }
     return recs
+
+with open("data/data_file_read.json") as read_file:
+    data = json.load(read_file)
+
+recommender(data)

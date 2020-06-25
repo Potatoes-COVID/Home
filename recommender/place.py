@@ -18,6 +18,8 @@ class Place(object):
         self.covidprec = [-1,-1,-1,-1,[],-1]     # masks, lim_ent, early_close, has_early, early_hours, delivery
         self.has_pt = False
         self.has_live = False
+        self.live = 0
+        self.url = ''
 
         db.Database(self)
         if self.has_live:
@@ -26,6 +28,7 @@ class Place(object):
             self.get_live_time()
             # self.live = WebScraper(self.url)
         self.calc_rank()
+        self.json = self.place_to_JSON()
 
     def get_location(self, place):
         lat = place['geometry']['location']['lat']
@@ -90,6 +93,6 @@ class Place(object):
             "rank" : str(self.rank),
             "place_id" : str(self.place_id),
             "covidprec" : str(self.covidprec),
-            "place_url" : str(self.url)
+            "place_url" : str(self.url),
         }
         return place

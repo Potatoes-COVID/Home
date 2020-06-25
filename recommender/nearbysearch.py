@@ -16,11 +16,8 @@ class NearbySearch(object):
         self.os_name = os_name
         nsr = self.search_nearby()
         self.create_places(nsr)
+        print("Place Recommendation - ", self.recs)
 
-        for place in range(len(self.recs)):
-            print("Place Recommendation - ", self.recs[place].print_place())
-
-        return
 
     # method for requesting the api's url
     def request_api(self, url):
@@ -62,9 +59,9 @@ class NearbySearch(object):
             #    if p['name'] != self.os_name:
                 place = p.Place(places[pl])
                 if place.has_live:
-                    self.recs.append(place)
+                    self.recs.append(place.json)
                 else:
-                    self.places.append(place)
+                    self.places.append(place.json)
         self.sort_recs()
 
     # if num_recs < 5 [we have < 5 places with live times], add places from
@@ -73,11 +70,11 @@ class NearbySearch(object):
     def sort_recs(self):
         num_recs = len(self.recs)
         if num_recs < 5:
-            sorted(self.places, key=lambda place: place.rank)
+            sorted(self.places, key=lambda place: place['rank'])
             max = 4
             for index in range(max):
                 self.recs.append(self.places[index])
                 num_recs += 1
                 if num_recs == 5:
                     break
-        sorted(self.recs, key=lambda place: place.rank)
+        sorted(self.recs, key=lambda place: place['rank'])

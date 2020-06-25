@@ -7,8 +7,7 @@ class UserSearch(object):
             self.places = []
             self.recs = []
             self.create_places(results)
-            print("Name : ", self.name)
-            return
+
 
     # for each place in places
     # if we have 5 recs, end
@@ -25,9 +24,9 @@ class UserSearch(object):
             else:
                 place = p.Place(places[pl])
                 if place.has_live:
-                    self.recs.append(place)
+                    self.recs.append(place.json)
                 else:
-                    self.places.append(place)
+                    self.places.append(place.json)
         self.sort_recs()
 
     # if num_recs < 5 [we have < 5 places with live times], add places from
@@ -36,10 +35,10 @@ class UserSearch(object):
     def sort_recs(self):
         num_recs = len(self.recs)
         if num_recs < 5:
-            sorted(self.places, key=lambda place: place.rank)
+            sorted(self.places, key=lambda place: place['rank'])
             max = 4
             for index in range(max):
                 self.recs.append(self.places[index])
                 num_recs += 1
                 if num_recs == 5: break
-        sorted(self.recs, key=lambda place: place.rank)
+        sorted(self.recs, key=lambda place: place['rank'])
