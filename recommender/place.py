@@ -13,15 +13,16 @@ class Place(object):
 
         self.in_db = False
         self.subtype = ''
-        self.covidprec = []     # subtype, masks, lim_ent, early_close, has_early, early_hours, delivery
+        self.covidprec = [-1,-1,-1,-1,[],-1]     # subtype, masks, lim_ent, early_close, has_early, early_hours, delivery
         self.has_pt = False
         self.has_live = False
 
         db.Database(self)
         if self.has_live:
             self.get_url()
-            # WebScraper(self.url)
-        self.rank = self.get_rank()
+            self.live = 26
+            # self.live = WebScraper(self.url)
+        self.calc_rank()
 
         self.print_place()
 
@@ -37,14 +38,33 @@ class Place(object):
                 '&query=%s'
                 '&query_place_id=%s') % (self.map_url, self.key, self.loc, self.place_id)
 
-    # WIP
-    def get_rank(self):
-        rank = 0
-        return rank
+    # Needs subtype consideration
+    def calc_rank(self):
+        self.rank = 0
+        for i in range(len(self.covidprec)):
+            if i != 2:
+                if self.covidprec[i] == 1:
+                    self.rank += 1
+        if self.has_pt:
+            self.rank += 1
+            if self.has_live:
+                self.calc_live_rank()
+        print(self.rank)
 
-    # in place for eventual testing
+    def calc_live_rank(self):
+        if 0 <= self.live <= 25:
+            self.rank += 20
+        if 26 <= self.live <= 50:
+            self.rank += 15
+        if 51 <= self.live <= 75:
+            self.rank += 10
+        if 76 <= self.live <= 90:
+            self.rank += 5
+
+    # in place for testing
     def print_place(self):
         print('Name : ' + self.name)
         print('Place ID: ' + self.place_id)
         print('Plus Code : ' + str(self.plus_code))
+        print('Found? ' + str(self.in_db))
         return

@@ -3,22 +3,23 @@ import numpy as np
 
 class Database(object):
     def __init__(self, place):
-        self._data = pd.read_csv('data/places.csv', index_col=0)
-        # print(self._data.loc[lat_lng])
+        self.data = pd.read_csv('data/places.csv', index_col=0)
+        # print(self._data.loc[plus_code])
         self.search(place)
 
     def search(self, place):
         print('Performing Database search ...')
-
-        if place.plus_code in self._data.values:
-            place.in_db = True
-            place.subtype = self._data.loc[lat_lng].iloc[1]
-            place.covidprec[0] = self._data.loc[lat_lng].iloc[2]
-            place.covidprec[1] = self._data.loc[lat_lng].iloc[3]
-            place.covidprec[2] = self._data.loc[lat_lng].iloc[4]
-            place.covidprec[3] = self._data.loc[lat_lng].iloc[5]
-            place.covidprec[4]= self._data.loc[lat_lng].iloc[6]
-            place.covidprec[5] = self._data.loc[lat_lng].iloc[7]
-            place.has_pt = self._data.loc[lat_lng].iloc[8]
-            place.has_live = self._data.loc[lat_lng].iloc[9]
-            print('Woo hoo ! Found !')
+        codes = self.data['plus_code'].values
+        for index in range(len(codes)):
+            if str(codes[index]) == place.plus_code:
+                print('Woo hoo ! Found !')
+                place.in_db = True
+                place.subtype = self.data.iloc[index].loc['subtype']
+                place.covidprec[0] = self.data.iloc[index].loc['masks']
+                place.covidprec[1] = self.data.iloc[index].loc['limited_entry']
+                place.covidprec[2] = self.data.iloc[index].loc['early_close']
+                place.covidprec[3] = self.data.iloc[index].loc['has_early']
+                place.covidprec[4] = self.data.iloc[index].loc['early_hours']
+                place.covidprec[5] = self.data.iloc[index].loc['delivery']
+                place.has_pt = place.covidprec[0] = self.data.iloc[index].loc['has_pt']
+                place.has_live = place.covidprec[0] = self.data.iloc[index].loc['has_live']
