@@ -11,7 +11,7 @@ import nearbysearch as ns
 # of the initial search, and the users approx location by
 # using the first place in the results array and send it to
 # NearbySearch for handling
-def recommender(search):
+def recommender():
     #srch = json.loads(search)
     #usr = srch['results']
     #user_search_recs = us.UserSearch(usr)
@@ -37,7 +37,5 @@ def get_json(nearby_search_recs):
     }
     return recs
 
-with open("data/data_file_read.json") as read_file:
+with open("map_data/data_file_read.json") as read_file:
     data = json.load(read_file)
-
-recommender(data)
