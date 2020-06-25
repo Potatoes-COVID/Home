@@ -1,25 +1,30 @@
 from config.api import apikey
-# import database
+import database as db
 
-class Place:
-    def _init_(self, place):
+class Place(object):
+    def __init__(self, place):
         self.map_url = 'https://www.google.com/maps/search/'
         self.key = apikey
 
         self.name = place['name']
         self.place_id = place['place_id']
-        self.plus_code = place['plus_code']
-        self.loc = get_location(place)
+        self.plus_code = place['plus_code']['compound_code']
+        self.loc = self.get_location(place)
 
-        self.covidprec = []
-        self.has_pt = false
-        seelf.has_live = false
+        self.in_db = False
+        self.subtype = ''
+        self.covidprec = [-1,-1,-1,-1,[],-1]     # subtype, masks, lim_ent, early_close, has_early, early_hours, delivery
+        self.has_pt = False
+        self.has_live = False
 
-        query_db()
-        self.rank = get_rank()
+        db.Database(self)
+        if self.has_live:
+            self.get_url()
+            self.live = 26
+            # self.live = WebScraper(self.url)
+        self.calc_rank()
 
-        print_place()
-        return
+        self.print_place()
 
     def get_location(self, place):
         lat = place['geometry']['location']['lat']
@@ -28,45 +33,38 @@ class Place:
 
     # url for WebScraper
     def get_url(self):
-
         return ('%s'
                 '?api=%s'
                 '&query=%s'
                 '&query_place_id=%s') % (self.map_url, self.key, self.loc, self.place_id)
 
-    # WIP -- STILL NEED TO WRITE DATABASE
-    # CODE COULD CHANGE
-    def query_db(self):
-        db = Databse()
-        results = db.search(self.name, self.plus_code)
-        found = true, subtype, covid [5], pt, lt
-        if results[0]:
-            self.subtype = results[1]
-            for index in results:
-                if index >= 2 && index < 8:
-                    self.covidprec = self.covidprec + results[index]
-            if results[7]:
-                # pt
-                self.has_pt = true
-                if results[8]:
-                    self.has_live = true
-                self.url = get_url()
-                self.pop_times = WebScraper(self.url, self.has_live)
-                return true
-        else:
-            self.url = get_url()
-            self.has_live = true                              # we're not sure so we want it to check for us
-            self.pop_times = WebScraper(self.url, self.has_live)
-            db.add(self)
-        return false
+    # Needs subtype consideration
+    def calc_rank(self):
+        self.rank = 0
+        for i in range(len(self.covidprec)):
+            if i != 2:
+                if self.covidprec[i] == 1:
+                    self.rank += 1
+        if self.has_pt:
+            self.rank += 1
+            if self.has_live:
+                self.calc_live_rank()
+        print(self.rank)
 
-        # WIP
-        def get_rank(self):
-            rank = 0
-            return rank
+    def calc_live_rank(self):
+        if 0 <= self.live <= 25:
+            self.rank += 20
+        if 26 <= self.live <= 50:
+            self.rank += 15
+        if 51 <= self.live <= 75:
+            self.rank += 10
+        if 76 <= self.live <= 90:
+            self.rank += 5
 
-        # in place for eventual testing
-        def print_place(self):
-            print('Name : ' + self.name)
-            print('Place ID: ' + self.place_id)
-            print('Plus Code : ' + self.plus_code)
+    # in place for testing
+    def print_place(self):
+        print('Name : ' + self.name)
+        print('Place ID: ' + self.place_id)
+        print('Plus Code : ' + str(self.plus_code))
+        print('Found? ' + str(self.in_db))
+        return
