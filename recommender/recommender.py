@@ -18,7 +18,7 @@ def recommender(search):
     search_type = self.usr[0]['types'][0]
     loc = self.get_location()
     nearby_search_recs = NearbySearch(loc, search_type, usr[0]['name'])
-    return
+    return [user_search_recs, nearby_search_recs]
 
 def get_location(self):
     lat = self.usr[0]['geometry']['location']['lat']

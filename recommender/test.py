@@ -5,8 +5,8 @@ print('test #1: database -- COMPLETE')
 # plus_code = '5CCP+J8 Woodland Hills, Los Angeles, CA'
 # db.Database(plus_code)
 
-print('test #2: nearbysearch, place  & database -- IN PROGRESS')
-
+print('test #2: nearbysearch, place  & database -- COMPLETE')
+print('test #3: populartimes -- IN PROGRESS')
 os = False
 type = 'supermarket'
 # location = '34.1720465,-118.5670421'     # in-n-out in woodland hills

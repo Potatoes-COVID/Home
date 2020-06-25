@@ -16,7 +16,10 @@ class NearbySearch(object):
         self.os_name = os_name
         nsr = self.search_nearby()
         self.create_places(nsr)
-        print("Type: ", self.type)
+
+        for place in range(len(self.recs)):
+            print("Place Recommendation - ", self.recs[place].print_place())
+
         return
 
     # method for requesting the api's url
