@@ -1,5 +1,5 @@
 from config.api import apikey
-import populartimes
+import livepopulartimes
 import database as db
 from datetime import datetime
 
@@ -21,12 +21,11 @@ class Place(object):
 
         db.Database(self)
         if self.has_live:
-            # self.get_url()
+            self.url = self.get_url()
             self.pop_times = self.get_place_popular_moments()
             self.get_live_time()
             # self.live = WebScraper(self.url)
         self.calc_rank()
-        #self.print_place()
 
     def get_location(self, place):
         lat = place['geometry']['location']['lat']
@@ -64,7 +63,7 @@ class Place(object):
             self.rank += 5
 
     def get_place_popular_moments(self):
-        popular_moments = populartimes.get_id(self.key, self.place_id)
+        popular_moments = livepopulartimes.get_populartimes_by_PlaceID(self.key, self.place_id)
         if 'populartimes' in popular_moments:
             return popular_moments['populartimes']
         else:
@@ -83,3 +82,14 @@ class Place(object):
         print('Plus Code : ' + str(self.plus_code))
         print('Found? ' + str(self.in_db))
         return
+
+    def place_to_JSON(self):
+        place = {
+            "name" : str(self.name),
+            "live" : str(self.live),
+            "rank" : str(self.rank),
+            "place_id" : str(self.place_id),
+            "covidprec" : str(self.covidprec),
+            "place_url" : str(self.url)
+        }
+        return place
