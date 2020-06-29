@@ -1,10 +1,9 @@
 import pandas as pd
-import numpy as np
 
+# Class for opening the database csv file and searching it
 class Database(object):
     def __init__(self, place):
         self.data = pd.read_csv('data/places.csv', index_col=0)
-        # print(self._data.loc[plus_code])
         self.search(place)
 
     def search(self, place):
@@ -23,4 +22,3 @@ class Database(object):
                 place.covidprec[5] = self.data.at[index, 'delivery']
                 place.has_pt = self.data.at[index, 'has_pt']
                 place.has_live = self.data.at[index, 'has_live']
-            #    self.data.at[index, 'place_id'] = place.place_id

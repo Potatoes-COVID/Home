@@ -26,7 +26,6 @@ class Place(object):
             self.url = self.get_url()
             self.pop_times = self.get_place_popular_moments()
             self.get_live_time()
-            # self.live = WebScraper(self.url)
         self.calc_rank()
         self.json = self.place_to_JSON()
 
@@ -35,12 +34,24 @@ class Place(object):
         lng = place['geometry']['location']['lng']
         return str(lat) + ',' + str(lng)
 
-    # url for WebScraper
+    # url for hyper-linking results?
     def get_url(self):
         return ('%s'
                 '?api=%s'
                 '&query=%s'
                 '&query_place_id=%s') % (self.map_url, self.key, self.loc, self.place_id)
+    def get_place_popular_moments(self):
+        popular_moments = livepopulartimes.get_populartimes_by_PlaceID(self.key, self.place_id)
+        if 'populartimes' in popular_moments:
+            return popular_moments['populartimes']
+        else:
+            return None
+
+    def get_live_time(self):
+        day_num = datetime.today().weekday()
+        hour = datetime.now().hour
+        day_pt = self.pop_times[day_num]['data']
+        self.live = day_pt[hour]
 
     # Needs subtype consideration
     def calc_rank(self):
@@ -65,27 +76,6 @@ class Place(object):
         if 76 <= self.live <= 90:
             self.rank += 5
 
-    def get_place_popular_moments(self):
-        popular_moments = livepopulartimes.get_populartimes_by_PlaceID(self.key, self.place_id)
-        if 'populartimes' in popular_moments:
-            return popular_moments['populartimes']
-        else:
-            return None
-
-    def get_live_time(self):
-        day_num = datetime.today().weekday()
-        hour = datetime.now().hour
-        day_pt = self.pop_times[day_num]['data']
-        self.live = day_pt[hour]
-
-    # in place for testing
-    def print_place(self):
-        print('Name : ' + self.name)
-        print('Place ID: ' + self.place_id)
-        print('Plus Code : ' + str(self.plus_code))
-        print('Found? ' + str(self.in_db))
-        return
-
     def place_to_JSON(self):
         place = {
             "name" : str(self.name),
@@ -96,3 +86,11 @@ class Place(object):
             "place_url" : str(self.url),
         }
         return place
+
+    # in place for testing
+    def print_place(self):
+        print('Name : ' + self.name)
+        print('Place ID: ' + self.place_id)
+        print('Plus Code : ' + str(self.plus_code))
+        print('Found? ' + str(self.in_db))
+        return
