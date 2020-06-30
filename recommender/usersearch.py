@@ -1,4 +1,5 @@
 import place as p
+import nearbysearch as ns
 
 class UserSearch(object):
     def __init__(self, results):
@@ -6,8 +7,10 @@ class UserSearch(object):
             self.type = results[0]['types'][0]
             self.places = []
             self.recs = []
+            self.subtype = self.places[0].subtype
+            self.loc = self.places[0].loc
+            self.nsr = ns.NearbySearch(self.loc, self.type, self.subtype, self.name)
             self.create_places(results)
-
 
     # for each place in places
     # if we have 5 recs, end
@@ -22,11 +25,12 @@ class UserSearch(object):
             if num_places == 5:
                 if num_recs > 1: break
             else:
-                place = p.Place(places[pl])
+                place = p.Place(places[pl], self.subtype, self.name)
                 if place.has_live:
                     self.recs.append(place.json)
                 else:
                     self.places.append(place.json)
+
         self.sort_recs()
 
     # if num_recs < 5 [we have < 5 places with live times], add places from

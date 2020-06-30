@@ -1,5 +1,5 @@
 import time
-import recommender as rc
+import rec_test as rc
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
@@ -10,7 +10,7 @@ class EventHandler(FileSystemEventHandler):
 
 
 if __name__ == "__main__":
-    path = "recommender/map_data"
+    path = "/Users/sabra/Documents/GitHub/Home/recommender/map_data"
     event_handler = EventHandler()
     observer = Observer()
     observer.schedule(event_handler, path, recursive=True)

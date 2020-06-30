@@ -5,7 +5,7 @@ import place as p
 from config.api import apikey
 
 class NearbySearch(object):
-    def __init__(self, location, type, os_name):
+    def __init__(self, location, type, os_sub, os_name):
         self.api_url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
         self.apikey = apikey
         self.loc = location
@@ -14,6 +14,7 @@ class NearbySearch(object):
         self.recs = []
         self.places = []
         self.os_name = os_name
+        self.os_sub = os_sub
         nsr = self.search_nearby()
         self.create_places(nsr)
         print("Place Recommendation - ", self.recs)
@@ -24,6 +25,8 @@ class NearbySearch(object):
         response = url_req.urlopen(url)
         json_raw = response.read()
         json_data = json.loads(json_raw)
+        with open("nsr_results.json", "w") as write_file:
+            json.dump(json_data, write_file)
         return json_data
 
     # generate the url needed to do a nearby search
@@ -57,12 +60,13 @@ class NearbySearch(object):
                 if num_recs > 1: break
             else:
             #    if p['name'] != self.os_name:
-                place = p.Place(places[pl])
+                place = p.Place(places[pl], self.os_sub, self.os_name)
                 if place.has_live:
                     self.recs.append(place.json)
                 else:
                     self.places.append(place.json)
         self.sort_recs()
+
 
     # if num_recs < 5 [we have < 5 places with live times], add places from
     # our places array to our recs. sort the places by their rank, first

@@ -19,16 +19,12 @@ def recommender():
     search_type = 'supermarket' #usr[0]['types'][0]
     # loc = get_location()
     loc = '34.2410079,-118.5401147'
-    nearby_search_recs = ns.NearbySearch(loc, search_type, 'target')#usr[0]['name'])
+    nearby_search_recs = ns.NearbySearch(loc, search_type, 'mexican', 'target')#usr[0]['name'])
 
     recs = get_json(nearby_search_recs.recs)
     with open("data/data_file_rec.json", "w") as write_file:
         json.dump(recs, write_file)
 
-def get_location():
-    lat = self.usr[0]['geometry']['location']['lat']
-    lng = self.usr[0]['geometry']['location']['lng']
-    return str(lat) + ',' + str(lng)
 
 def get_json(nearby_search_recs):
     recs = {
