@@ -1,8 +1,10 @@
 import time
-import rec_test as rc
+import recommender as rc
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
+# Watches for changes in the map_data directory
+# Calls recommender if a file has been modified
 
 class EventHandler(FileSystemEventHandler):
     def on_modified(self, event):

@@ -24,7 +24,6 @@ class Place(object):
         self.url = self.get_url()
 
         db.Database(self)
-        print('Subtype : ', self.subtype)
         if self.has_live:
             self.pop_times = self.get_place_popular_moments()
             self.get_live_time()
@@ -67,7 +66,7 @@ class Place(object):
         self.rank = 0
         if self.name != self.os_name:
             if self.subtype == self.os_sub:
-                rank += 5
+                self.rank += 5
         for i in range(len(self.covidprec)):
             if i != 2:
                 if self.covidprec[i] == 1:
@@ -76,7 +75,6 @@ class Place(object):
             self.rank += 1
             if self.has_live:
                 self.calc_live_rank()
-        print("Rank: ", self.rank)
 
     # Determines the amount to add to the rank based on the
     # stores current live value

@@ -44,7 +44,7 @@ class NearbySearch(object):
 
         time.sleep(1)
         return results
-
+        
 
     # for each place in places
     # if we have 5 recs, end
