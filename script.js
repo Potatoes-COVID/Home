@@ -10,7 +10,87 @@ function initAutocomplete() {
     var map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 34.23833238, lng: -118.523664572},
       zoom: 13,
-      mapTypeId: 'roadmap'
+      mapTypeId: 'roadmap',
+      styles: [
+        {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
+        {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+        {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+        {
+          featureType: 'administrative.locality',
+          elementType: 'labels.text.fill',
+          stylers: [{color: '#d59563'}]
+        },
+        {
+          featureType: 'poi',
+          elementType: 'labels.text.fill',
+          stylers: [{color: '#d59563'}]
+        },
+        {
+          featureType: 'poi.park',
+          elementType: 'geometry',
+          stylers: [{color: '#263c3f'}]
+        },
+        {
+          featureType: 'poi.park',
+          elementType: 'labels.text.fill',
+          stylers: [{color: '#6b9a76'}]
+        },
+        {
+          featureType: 'road',
+          elementType: 'geometry',
+          stylers: [{color: '#38414e'}]
+        },
+        {
+          featureType: 'road',
+          elementType: 'geometry.stroke',
+          stylers: [{color: '#212a37'}]
+        },
+        {
+          featureType: 'road',
+          elementType: 'labels.text.fill',
+          stylers: [{color: '#9ca5b3'}]
+        },
+        {
+          featureType: 'road.highway',
+          elementType: 'geometry',
+          stylers: [{color: '#746855'}]
+        },
+        {
+          featureType: 'road.highway',
+          elementType: 'geometry.stroke',
+          stylers: [{color: '#1f2835'}]
+        },
+        {
+          featureType: 'road.highway',
+          elementType: 'labels.text.fill',
+          stylers: [{color: '#f3d19c'}]
+        },
+        {
+          featureType: 'transit',
+          elementType: 'geometry',
+          stylers: [{color: '#2f3948'}]
+        },
+        {
+          featureType: 'transit.station',
+          elementType: 'labels.text.fill',
+          stylers: [{color: '#d59563'}]
+        },
+        {
+          featureType: 'water',
+          elementType: 'geometry',
+          stylers: [{color: '#17263c'}]
+        },
+        {
+          featureType: 'water',
+          elementType: 'labels.text.fill',
+          stylers: [{color: '#515c6d'}]
+        },
+        {
+          featureType: 'water',
+          elementType: 'labels.text.stroke',
+          stylers: [{color: '#17263c'}]
+        }
+      ]
     });
   
     // Create the search box and link it to the UI element.
@@ -21,7 +101,13 @@ function initAutocomplete() {
     map.addListener('bounds_changed', function() {
       searchBox.setBounds(map.getBounds());
     });
-  
+
+    
+    
+    
+    
+
+    
     var markers = [];
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
@@ -31,6 +117,27 @@ function initAutocomplete() {
       if (places.length == 0) {
         return;
       }
+
+      //for(var i = 0; i < places.length; i++){
+        //console.log(places[i].formatted_address);
+      //}
+
+      var obj = {
+        names:[]
+      };
+      for(var i = 0; i < places.length; i++){
+        obj.names.push(places[i].formatted_address);
+      }
+      for(var i = 0; i < obj.names.length; i++){
+        console.log(obj.names[i]);
+      }
+
+      var json = JSON.stringify(obj);
+
+      var fs = require('fs');
+      fs.writeFile('/myjsonfile.json', json,'utf8', callback);
+      
+      
   
       // Clear out the old markers.
       markers.forEach(function(marker) {
@@ -42,7 +149,6 @@ function initAutocomplete() {
       var bounds = new google.maps.LatLngBounds();
       places.forEach(function(place) {
         if (!place.geometry) {
-          console.log("Returned place contains no geometry");
           return;
         }
         var icon = {
@@ -52,6 +158,7 @@ function initAutocomplete() {
           anchor: new google.maps.Point(17, 34),
           scaledSize: new google.maps.Size(25, 25)
         };
+        
   
         // Create a marker for each place.
         markers.push(new google.maps.Marker({
@@ -60,7 +167,7 @@ function initAutocomplete() {
           title: place.name,
           position: place.geometry.location
         }));
-  
+        
         if (place.geometry.viewport) {
           // Only geocodes have viewport.
           bounds.union(place.geometry.viewport);
@@ -72,6 +179,7 @@ function initAutocomplete() {
     });
   }
 
+  
   $(document).ready(function(){
     // Add smooth scrolling to all links
     $("a").on('click', function(event) {
@@ -96,7 +204,7 @@ function initAutocomplete() {
       } // End if
     });
   });
-
+  
     
   function drawStuff() {
     var data = new google.visualization.arrayToDataTable([
@@ -131,13 +239,14 @@ function initAutocomplete() {
 
     var options = {
       width: 600,
+      chartArea: {'backgroundColor': '#313b47'},
+      backgroundColor: {
+        fill: '#313b47'
+      },
       legend: { position: 'none' },
-      chart: {
-        title: 'Chess opening moves',
-        subtitle: 'popularity by percentage' },
       axes: {
         x: {
-          0: { side: 'top', label: 'White to move'} // Top x-axis.
+          0: { side: 'top', label: 'Daily traffic'} // Top x-axis.
         }
       },
       bar: { groupWidth: "50%" }
@@ -147,4 +256,3 @@ function initAutocomplete() {
     // Convert the Classic options to Material options.
     chart.draw(data, google.charts.Bar.convertOptions(options));
   };
- 
