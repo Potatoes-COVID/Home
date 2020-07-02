@@ -224,33 +224,12 @@ function initAutocomplete() {
 
   function drawStuff() {
     var data = new google.visualization.arrayToDataTable([
-      ['Move', 'Percentage'],
-      ["12 am", 100],
-      ["1 am", 31],
-      ["2 am", 12],
-      ["3 am", 10],
-      ["4 am", 3],
-      ["3 am", 10],
-      ["4 am", 44],
-      ["5 am", 31],
-      ["6 am", 12],
-      ["7 am", 10],
-      ["8 am", 3],
-      ["9 am", 10],
-      ["10 am", 44],
-      ["11 am", 31],
-      ["12 pm", 12],
-      ["1 pm", 10],
-      ["2 pm", 3],
-      ["3 pm", 10],
-      ["4 pm", 44],
-      ["5 pm", 31],
-      ["6 pm", 12],
-      ["7 pm", 10],
-      ["8 pm", 3],
-      ["9 pm", 10],
-      ["10 pm", 3],
-      ["11 pm", 10]
+      ['Location', 'Population Density % At This Hour'],
+      ["Store Name", 100],
+      ["Store Name", 31],
+      ["Store Name", 12],
+      ["Store Name", 10],
+      ["Store Name", 3]
     ]);
 
     var options = {
