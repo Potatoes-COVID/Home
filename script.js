@@ -92,37 +92,54 @@ function initAutocomplete() {
         }
       ]
     });
-  
+
     // Create the search box and link it to the UI element.
     var input = document.getElementById('pac-input');
     var searchBox = new google.maps.places.SearchBox(input);
-  
+
     // Bias the SearchBox results towards current map's viewport.
     map.addListener('bounds_changed', function() {
       searchBox.setBounds(map.getBounds());
     });
 
-    
-    
-    
-    
 
-    
     var markers = [];
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
     searchBox.addListener('places_changed', function() {
       var places = searchBox.getPlaces();
-  
+
       if (places.length == 0) {
         return;
       }
+
+      // YOUR PATH HERE //
+      fs.writeFile('/Users/sabra/Documents/GitHub/Home/recommender/map_data/data_file_read.json', JSON.stringify(places), (err) => {
+              if (err) console.log('Error writing file:', err)
+          })
+      })
+
+      // JSON File Reader
+      const fs = require('fs')
+      fs.readFile('/Users/sabra/Documents/GitHub/Home/recommender/data/data_file_rec.json', 'utf8', (err, jsonString) => {
+         if (err) {
+            console.log("Error reading file from disk:", err)
+            return
+         }
+
+         try {
+            const search = JSON.parse(jsonString)
+            console.log("Place ID is : ", search.nearbysearch)
+         } catch(err) {
+            console.log('Error parsing JSON string:', err)
+         }
+      })
 
       //for(var i = 0; i < places.length; i++){
         //console.log(places[i].formatted_address);
       //}
 
-      var obj = {
+      /*var obj = {
         names:[]
       };
       for(var i = 0; i < places.length; i++){
@@ -135,16 +152,15 @@ function initAutocomplete() {
       var json = JSON.stringify(obj);
 
       var fs = require('fs');
-      fs.writeFile('/myjsonfile.json', json,'utf8', callback);
-      
-      
-  
+      fs.writeFile('/myjsonfile.json', json,'utf8', callback);*/
+
+
       // Clear out the old markers.
       markers.forEach(function(marker) {
         marker.setMap(null);
-      });
+     });
       markers = [];
-  
+
       // For each place, get the icon, name and location.
       var bounds = new google.maps.LatLngBounds();
       places.forEach(function(place) {
@@ -158,8 +174,8 @@ function initAutocomplete() {
           anchor: new google.maps.Point(17, 34),
           scaledSize: new google.maps.Size(25, 25)
         };
-        
-  
+
+
         // Create a marker for each place.
         markers.push(new google.maps.Marker({
           map: map,
@@ -167,7 +183,7 @@ function initAutocomplete() {
           title: place.name,
           position: place.geometry.location
         }));
-        
+
         if (place.geometry.viewport) {
           // Only geocodes have viewport.
           bounds.union(place.geometry.viewport);
@@ -179,33 +195,33 @@ function initAutocomplete() {
     });
   }
 
-  
+
   $(document).ready(function(){
     // Add smooth scrolling to all links
     $("a").on('click', function(event) {
-  
+
       // Make sure this.hash has a value before overriding default behavior
       if (this.hash !== "") {
         // Prevent default anchor click behavior
         event.preventDefault();
-  
+
         // Store hash
         var hash = this.hash;
-  
+
         // Using jQuery's animate() method to add smooth page scroll
         // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
         $('html, body').animate({
           scrollTop: $(hash).offset().top
         }, 800, function(){
-     
+
           // Add hash (#) to URL when done scrolling (default click behavior)
           window.location.hash = hash;
         });
       } // End if
     });
   });
-  
-    
+
+
   function drawStuff() {
     var data = new google.visualization.arrayToDataTable([
       ['Move', 'Percentage'],
