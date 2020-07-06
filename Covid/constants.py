@@ -1,0 +1,8 @@
+GOOGLE_API_KEY = 'AIzaSyAgnNV7U7z9uM_DX1R5c3R07DrB7zfumnw'
+
+ERROR = 'Error'
+MESSAGE = 'Message'
+SUCCESS = 'Success'
+RESPONSE = 'Response'
+
+PLACEID_SAMPLE = 'ChIJI25WUN2VwoAREUvf8-l0huA'
